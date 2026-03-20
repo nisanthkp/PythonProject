@@ -9,7 +9,6 @@ on:
 env:
   AWS_REGION: ap-south-1
   ECR_REPOSITORY: nkpdemo/project1
-  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   lint:
@@ -44,4 +43,4 @@ jobs:
 
     - name: Push Image 
       run: | 
-        docker push ${{ steps.login-ecr.outputs.registry }}/${ECR_REPOSITORY}:${IMAGE_TAG}
+        docker push ${{ steps.login-ecr.outputs.registry }}/${ECR_REPOSITORY}:latest
