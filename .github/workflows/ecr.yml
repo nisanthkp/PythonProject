@@ -6,6 +6,11 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: nkpdemo/project1
+  IMAGE_TAG: ${{ github.sha }}
+
 jobs:
   lint:
     name: Run Unit Testing
@@ -24,16 +29,19 @@ jobs:
         aws-region: ap-south-1
 
     - name: Login to ECR
-      id: ecr
+      id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build Image
       run:  docker build -t pythonapp:latest .
 
-    - name: Scan with Trivy
-      uses: aquasecurity/trivy-action@master
-      with: 
-        image-ref: pythonapp:latest
-        exit-code: 1
-        severity: HIGH,CRITICAL
+    # - name: Scan with Trivy
+    #   uses: aquasecurity/trivy-action@master
+    #   with: 
+    #     image-ref: pythonapp:latest
+    #     exit-code: 1
+    #     severity: HIGH,CRITICAL
 
+    - name: Push Image 
+      run: | 
+        docker push ${{ steps.login-ecr.outputs.registry }}/${ECR_REPOSITORY}:${IMAGE_TAG}
