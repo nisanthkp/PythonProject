@@ -30,7 +30,6 @@ jobs:
     - name: Build Image
       run:  docker build -t pythonapp:latest .
 
-
     - name: Scan with Trivy
       uses: aquasecurity/trivy-action@master
       with: 
