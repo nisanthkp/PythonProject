@@ -28,7 +28,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build Image
-      run:  docker built -t pythonapp:latest .
+      run:  docker build -t pythonapp:latest .
 
     - name: Scan with Trivy
       uses: aquasecurity/trivy-action@master
